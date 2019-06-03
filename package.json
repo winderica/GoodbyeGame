@@ -1,0 +1,43 @@
+{
+  "name": "rush-duck",
+  "version": "1.0.0",
+  "author": "@winderica",
+  "private": true,
+  "homepage": "/",
+  "contributors": [
+    {
+      "name": "winderica",
+      "email": "winderica@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "phaser": "^3.17.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-2": "^7.0.0",
+    "@types/node": "^12.0.4",
+    "@types/react": "^16.8.19",
+    "@types/react-dom": "^16.8.4",
+    "babel-loader": "^8.0.6",
+    "chalk": "^2.4.2",
+    "fs-extra": "^8.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "react-dev-utils": "^9.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "ts-loader": "^6.0.2",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.1",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.5.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --config=webpack.config.dev.js",
+    "build": "node ./scripts/build.js"
+  }
+}
