@@ -1,0 +1,283 @@
+{
+  "textures": [
+    {
+      "image": "item.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 121,
+        "h": 282
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "90.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 70
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 68,
+            "h": 70
+          },
+          "frame": {
+            "x": 1,
+            "y": 1,
+            "w": 68,
+            "h": 70
+          }
+        },
+        {
+          "filename": "52.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 47,
+            "h": 47
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 47,
+            "h": 47
+          },
+          "frame": {
+            "x": 71,
+            "y": 1,
+            "w": 47,
+            "h": 47
+          },
+          "type": "speedUp"
+        },
+        {
+          "filename": "53.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 47,
+            "h": 47
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 47,
+            "h": 47
+          },
+          "frame": {
+            "x": 71,
+            "y": 50,
+            "w": 47,
+            "h": 47
+          },
+          "type": "slowDown"
+        },
+        {
+          "filename": "60.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 103
+          },
+          "spriteSourceSize": {
+            "x": 3,
+            "y": 0,
+            "w": 63,
+            "h": 103
+          },
+          "frame": {
+            "x": 1,
+            "y": 73,
+            "w": 63,
+            "h": 103
+          },
+          "type": "doorIn1"
+        },
+        {
+          "filename": "61.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 103
+          },
+          "spriteSourceSize": {
+            "x": 3,
+            "y": 0,
+            "w": 63,
+            "h": 103
+          },
+          "frame": {
+            "x": 1,
+            "y": 178,
+            "w": 63,
+            "h": 103
+          },
+          "type": "doorOut1"
+        },
+        {
+          "filename": "62.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 103
+          },
+          "spriteSourceSize": {
+            "x": 3,
+            "y": 0,
+            "w": 63,
+            "h": 103
+          },
+          "frame": {
+            "x": 1,
+            "y": 73,
+            "w": 63,
+            "h": 103
+          },
+          "type": "doorIn2"
+        },
+        {
+          "filename": "63.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 103
+          },
+          "spriteSourceSize": {
+            "x": 3,
+            "y": 0,
+            "w": 63,
+            "h": 103
+          },
+          "frame": {
+            "x": 1,
+            "y": 178,
+            "w": 63,
+            "h": 103
+          },
+          "type": "doorOut2"
+        },
+        {
+          "filename": "64.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 103
+          },
+          "spriteSourceSize": {
+            "x": 3,
+            "y": 0,
+            "w": 63,
+            "h": 103
+          },
+          "frame": {
+            "x": 1,
+            "y": 73,
+            "w": 63,
+            "h": 103
+          },
+          "type": "doorIn3"
+        },
+        {
+          "filename": "65.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 103
+          },
+          "spriteSourceSize": {
+            "x": 3,
+            "y": 0,
+            "w": 63,
+            "h": 103
+          },
+          "frame": {
+            "x": 1,
+            "y": 178,
+            "w": 63,
+            "h": 103
+          },
+          "type": "doorOut3"
+        },
+        {
+          "filename": "50.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 70
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 17,
+            "w": 54,
+            "h": 49
+          },
+          "frame": {
+            "x": 66,
+            "y": 99,
+            "w": 54,
+            "h": 49
+          },
+          "type": "bronzeCoin"
+        },
+        {
+          "filename": "54.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 53,
+            "h": 45
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 53,
+            "h": 45
+          },
+          "frame": {
+            "x": 66,
+            "y": 150,
+            "w": 53,
+            "h": 45
+          },
+          "type": "life"
+        },
+        {
+          "filename": "51.png",
+          "rotated": false,
+          "trimmed": true,
+          "sourceSize": {
+            "w": 70,
+            "h": 70
+          },
+          "spriteSourceSize": {
+            "x": 16,
+            "y": 17,
+            "w": 38,
+            "h": 38
+          },
+          "frame": {
+            "x": 66,
+            "y": 197,
+            "w": 38,
+            "h": 38
+          },
+          "type": "goldCoin"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "3.0",
+    "smartupdate": "$TexturePacker:SmartUpdate:0c6707585464eb08f929e27ed8aeeca7:f7e2fdeee825ed38fbb3d0d29c33ccaf:87c70aa46f29753bb8d8680ed03b9979$"
+  }
+}

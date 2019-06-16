@@ -1,3 +1,3 @@
 # Rush Duck
 
-Homework of Introduction to Game Development
+Homework of *Introduction to Game Development*

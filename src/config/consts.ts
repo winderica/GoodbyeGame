@@ -1,0 +1,12 @@
+export const PLAYER = 'PLAYER';
+export const PLATFORM = 'PLATFORM';
+export const BACKGROUND = 'BACKGROUND';
+export const ENEMY = 'ENEMY';
+export const ITEM = 'ITEM';
+export const FLAG = 'FLAG';
+export const SCORE = (i: number) => `SCORE${i}`;
+export const GOLD = 'GOLD';
+export const BRONZE = 'BRONZE';
+export const HEART_FULL = 'HEART_FULL';
+export const HEART_EMPTY = 'HEART_EMPTY';
+export const SIZE = 70;

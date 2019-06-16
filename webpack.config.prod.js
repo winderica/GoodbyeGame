@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'production',
-    entry: './src/index.tsx',
+    entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, './build'),
         filename: '[name].[hash].js',
@@ -43,6 +43,15 @@ module.exports = {
                         transpileOnly: true,
                     },
                 },
+            },
+            {
+                test: /\.(png|jpg|gif|ico|svg|pvr|pkm|static|ogg|mp3|wav)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]',
+                    }
+                }
             },
             // {
             //     test: /\.css$/,

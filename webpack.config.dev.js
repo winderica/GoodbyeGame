@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.tsx',
+    entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name].[hash].js',
@@ -21,7 +21,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        port: 9000,
+        port: 5555,
         hot: true,
         historyApiFallback: true,
     },
@@ -41,6 +41,20 @@ module.exports = {
                     },
                 },
             },
+            {
+                test: /\.(png|jpg|gif|ico|svg|pvr|pkm|static|ogg|mp3|wav)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]',
+                    }
+                }
+            },
+            // {
+            //     test: /\.json$/,
+            //     type: 'javascript/auto',
+            //     use: 'file-loader'
+            // },
             // {
             //     test: /\.css$/,
             //     include: /node_modules/,
