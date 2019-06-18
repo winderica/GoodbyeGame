@@ -2,15 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>冲鸭</title>
+    <title>Rush Duck</title>
     <style>
         * {
             margin: 0;
             padding: 0;
+            font-family: monospace;
         }
         html, body {
             overflow: hidden;
             height: 100%;
+        }
+        .button {
+            width: 160px;
+            padding: 8px;
+            background: white;
+            border: 1px solid black;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 300ms, color 300ms;
+        }
+        .button:hover {
+            background: black;
+            color: white;
+        }
+        .select {
+            width: 160px;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .select:focus {
+            outline: none;
         }
     </style>
 </head>

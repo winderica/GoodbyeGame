@@ -112,10 +112,9 @@
     "no-unnecessary-initializer": true,
     "no-unsafe-finally": true,
     "no-unused-expression": false,
-    // disable this rule as it is very heavy performance-wise and not that useful
     "no-use-before-declare": false,
     "no-var-keyword": true,
-    "no-var-requires": true,
+    "no-var-requires": false,
     "object-literal-key-quotes": false,
     "object-literal-shorthand": true,
     "object-literal-sort-keys": false,
@@ -199,7 +198,6 @@
       ]
     },
     "typeof-compare": false,
-    // deprecated in TSLint 5.9.0
     "unified-signatures": true,
     "use-isnan": true,
     "variable-name": {
