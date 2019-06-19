@@ -277,7 +277,6 @@ export class MapScene extends Scene {
     }
 
     private returnMain(mapData?: MapData) {
-        this.scene.stop(PLAYER);
         this.sound.stopAll();
         this.time.delayedCall(
             2000,

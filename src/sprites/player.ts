@@ -27,6 +27,8 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
         this.currentScene.displayLives(lives);
         if (this.lives <= 0 && !this.ended) {
             this.ended = true;
+            this.baseSpeed = 0;
+            this.setVelocity(0, 0);
             this.currentScene.failure();
         }
     }
@@ -90,7 +92,7 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
                 if (type === 'stay') {
                     this.baseSpeed = 0;
                 }
-                if (type === 'damage') {
+                if (type === 'damage' && direction === 'U') {
                     this.injured();
                 }
             }
@@ -113,14 +115,14 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
             } else if (type === 'getLife') {
                 this.getItemTween(platform, HEART_FULL, () => this.setLives(this.lives + 1));
             }
-            if (!this.cd && type === 'damage') {
+            if (!this.cd && type === 'damage' && direction === 'D') {
                 this.injured();
             }
         } else if (l1 && r2) {
             if (type === 'jump' && direction === 'R') {
                 this.bounce(500);
             }
-            if (!this.cd && type === 'damage') {
+            if (!this.cd && type === 'damage' && direction === 'R') {
                 this.injured();
             }
             if (this.bounceTween) {
@@ -131,7 +133,7 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
         } else if (r1 && l2) {
             if (type === 'jump' && direction === 'L') {
                 this.bounce(-500);
-            } else if (type === 'damage') {
+            } else if (type === 'damage' && direction === 'L') {
                 !this.cd && this.injured();
             } else if (platform.isWall && !u1 && player.y - platform.y < 20) {
                 this.onWall = true;
@@ -160,6 +162,8 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
         }
         if (item.frame.texture.key === FLAG) {
             this.ended = true;
+            this.baseSpeed = 0;
+            this.setVelocity(0, 0);
             this.currentScene.success();
             return;
         }
