@@ -1,4 +1,4 @@
-import { GameObjects, Physics, Sound, Types } from 'phaser';
+import { GameObjects, Physics, Types } from 'phaser';
 import { MapScene } from '../scenes/map';
 import { Player } from '../sprites/player';
 
@@ -13,8 +13,7 @@ export const Body = Physics.Arcade.Body;
 export type Image = GameObjects.Image;
 export const Image = GameObjects.Image;
 export type GameConfig = Types.Core.GameConfig;
-export type BaseSound = Sound.BaseSound;
-export const BaseSound = Sound.BaseSound;
+export type CursorKeys = Types.Input.Keyboard.CursorKeys;
 
 export interface Sprite extends Physics.Arcade.Sprite {
     isDestroying: boolean;
@@ -38,8 +37,8 @@ export interface State {
     movingPlatforms: Group;
     items: StaticGroup;
     enemies: Group;
+    cursors: CursorKeys;
     startTime: number;
-    cd: boolean;
     score: number;
     jumping: boolean;
     jumpStart: number;
@@ -51,7 +50,6 @@ export interface State {
     scoreImages: Image[];
     livesImages: Image[];
     timeImages: Image[];
-    bgm: BaseSound;
 }
 
 export interface SceneConfig {
@@ -60,4 +58,9 @@ export interface SceneConfig {
     y: number;
     texture: string;
     frame?: string;
+}
+
+export interface MapData {
+    time: number;
+    score: number;
 }

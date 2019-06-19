@@ -1,5 +1,5 @@
 import { Physics, Tweens } from 'phaser';
-import { BLOCK_SIZE, BRONZE, FLAG, GOLD, HEART_FULL, MAPS_COUNT } from '../config/consts';
+import { BLOCK_SIZE, BRONZE, FLAG, GOLD, HEART_FULL, SE_BOUNCE, SE_GET_ITEM, SE_INJURED, SE_KILL } from '../config/consts';
 import { Body, PlatformSprite, SceneConfig, Sprite } from '../config/types';
 import { MapScene } from '../scenes/map';
 
@@ -7,11 +7,12 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
     isDestroying = false;
     body = undefined as unknown as Body;
     lives = 3;
+    cd = false;
     onBack = false;
     onWall = false;
     baseSpeed = 200;
     ended = false;
-    reboundTween = undefined as unknown as Tweens.Tween | undefined;
+    bounceTween = undefined as unknown as Tweens.Tween | undefined;
     private currentScene: MapScene;
 
     constructor({ scene, x, y, texture, frame }: SceneConfig) {
@@ -28,14 +29,6 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
             this.ended = true;
             this.currentScene.failure();
         }
-    }
-
-    injured() {
-        this.setLives(this.lives - 1);
-        this.baseSpeed *= -1;
-        this.setVelocityY(-200);
-        this.currentScene.state.cd = true;
-        this.playerInjuredTween();
     }
 
     slowDown() {
@@ -58,28 +51,26 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
     }
 
     overlapsEnemy: any = (player: Sprite, enemy: Sprite) => {
-        if (this.currentScene.state.cd || enemy.isDestroying) {
+        if (enemy.isDestroying) {
             return;
         }
         if (player.body.touching.down && enemy.body.touching.up && player.body.velocity.y > 0) {
-            this.setVelocityY(-200);
+            this.setVelocityY(-300);
+            this.cd = true;
+            this.currentScene.sound.play(SE_KILL);
+            this.currentScene.time.delayedCall(50, () => this.cd = false, [], null);
             this.currentScene.state.jumping = false;
             this.currentScene.state.jumpStart = +new Date();
             this.currentScene.setScore(this.currentScene.state.score + 50).then();
             this.currentScene.dieTween(enemy);
-        } else {
+        } else if (!this.cd) {
             this.injured();
         }
     };
 
     collidesPlatform: any = (player: Sprite, platform: PlatformSprite) => {
-        if (platform.isDestroying) {
+        if (platform.isDestroying || this.ended) {
             return;
-        }
-        if (this.reboundTween) {
-            this.baseSpeed = 200;
-            this.reboundTween.remove();
-            this.reboundTween = undefined;
         }
         const type = platform.frame.customData['type'];
         const direction = platform.frame.customData['direction'] || 'U';
@@ -88,7 +79,7 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
         this.onBack = type === 'back';
         if (d1 && u2) {
             this.currentScene.state.jumping = false;
-            if (!this.currentScene.state.cd) {
+            if (!this.cd) {
                 this.baseSpeed = 200;
                 if (type === 'slowDown') {
                     this.baseSpeed /= 2;
@@ -104,12 +95,14 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
                 }
             }
             if (type === 'jump' && direction === 'U') {
+                this.currentScene.sound.play(SE_BOUNCE);
                 this.currentScene.state.jumpStart = +new Date();
                 this.setVelocityY(-900);
                 this.currentScene.state.jumping = true;
             }
         } else if (u1 && d2) {
             if (type === 'jump' && direction === 'D') {
+                this.currentScene.sound.play(SE_BOUNCE);
                 this.currentScene.state.jumping = true;
                 this.currentScene.state.jumpStart = +new Date();
                 this.setVelocityY(600);
@@ -120,47 +113,26 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
             } else if (type === 'getLife') {
                 this.getItemTween(platform, HEART_FULL, () => this.setLives(this.lives + 1));
             }
-            if (!this.currentScene.state.cd && type === 'damage') {
+            if (!this.cd && type === 'damage') {
                 this.injured();
             }
         } else if (l1 && r2) {
             if (type === 'jump' && direction === 'R') {
-                this.reboundTween = this.currentScene.tweens.add({
-                    targets: this.body.velocity,
-                    ease: 'Cubic',
-                    x: 500,
-                    duration: 1000,
-                    onStart: () => {
-                        this.body.velocity.x = 500;
-                        this.baseSpeed = 0;
-                        this.currentScene.state.jumpStart = +new Date();
-                    },
-                    onComplete: () => {
-                        this.baseSpeed = 200;
-                    }
-                });
+                this.bounce(500);
             }
-            if (!this.currentScene.state.cd && type === 'damage') {
+            if (!this.cd && type === 'damage') {
                 this.injured();
+            }
+            if (this.bounceTween) {
+                this.baseSpeed = 200;
+                this.bounceTween.remove();
+                this.bounceTween = undefined;
             }
         } else if (r1 && l2) {
             if (type === 'jump' && direction === 'L') {
-                this.reboundTween = this.currentScene.tweens.add({
-                    targets: this.body.velocity,
-                    ease: 'Cubic',
-                    x: -500,
-                    duration: 1000,
-                    onStart: () => {
-                        this.body.velocity.x = -500;
-                        this.baseSpeed = 0;
-                        this.currentScene.state.jumpStart = +new Date();
-                    },
-                    onComplete: () => {
-                        this.baseSpeed = 200;
-                    }
-                });
+                this.bounce(-500);
             } else if (type === 'damage') {
-                !this.currentScene.state.cd && this.injured();
+                !this.cd && this.injured();
             } else if (platform.isWall && !u1 && player.y - platform.y < 20) {
                 this.onWall = true;
                 this.setVelocityY(0);
@@ -183,14 +155,12 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
     };
 
     overlapsItem: any = async (player: Sprite, item: Sprite) => {
-        if (item.isDestroying) {
+        if (item.isDestroying || this.ended) {
             return;
         }
-        if (item.frame.texture.key === FLAG && !this.ended) {
+        if (item.frame.texture.key === FLAG) {
             this.ended = true;
-            const next = Math.min(this.currentScene.state.stage + 1, MAPS_COUNT);
-            const clearUntil = +(localStorage.getItem('clearedUntil') || '');
-            this.currentScene.success(next, Math.max(clearUntil, next));
+            this.currentScene.success();
             return;
         }
         switch (item.frame.customData['type']) {
@@ -235,6 +205,17 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
         this.setScale((BLOCK_SIZE - 4) / this.width);
     }
 
+    private injured() {
+        if (!this.ended) {
+            this.currentScene.sound.play(SE_INJURED);
+            this.setLives(this.lives - 1);
+            this.baseSpeed *= -1;
+            this.setVelocityY(-200);
+            this.cd = true;
+            this.playerInjuredTween();
+        }
+    }
+
     private playerInjuredTween() {
         this.currentScene.add.tween({
             targets: this,
@@ -248,12 +229,31 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
             onComplete: (tween, targets) => {
                 targets.map((target: Sprite) => target.alpha = 1);
                 this.baseSpeed = 100;
-                this.currentScene.state.cd = false;
+                this.cd = false;
+            }
+        });
+    }
+
+    private bounce(speed: number) {
+        this.currentScene.sound.play(SE_BOUNCE);
+        this.bounceTween = this.currentScene.tweens.add({
+            targets: this.body.velocity,
+            ease: 'Cubic',
+            x: speed,
+            duration: 1000,
+            onStart: () => {
+                this.body.velocity.x = speed;
+                this.baseSpeed = 0;
+                this.currentScene.state.jumpStart = +new Date();
+            },
+            onComplete: () => {
+                this.baseSpeed = 200;
             }
         });
     }
 
     private getItemTween(platform: Sprite, item: string, callback: () => void) {
+        this.currentScene.sound.play(SE_GET_ITEM);
         this.currentScene.add.tween({
             targets: platform,
             duration: 300,
@@ -283,6 +283,7 @@ export class Player extends Physics.Arcade.Sprite implements Sprite {
     }
 
     private itemDestroyTween(item: Sprite) {
+        this.currentScene.sound.play(SE_GET_ITEM);
         this.currentScene.destroySprite(item, { alpha: 0 }, 300);
     }
 
