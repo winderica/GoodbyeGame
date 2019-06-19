@@ -76,7 +76,7 @@ function setMainMenu() {
     Menu.setApplicationMenu(menu);
 }
 
-app.on('ready', async () => {
+const createWindow = async () => {
     window = new BrowserWindow({
         width: 1600,
         height: 900,
@@ -88,7 +88,9 @@ app.on('ready', async () => {
         window = null;
     });
     setMainMenu();
-});
+};
+
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -96,8 +98,8 @@ app.on('window-all-closed', () => {
     }
 });
 
-app.on('activate', () => {
+app.on('activate', async () => {
     if (window === null) {
-        createWindow();
+        await createWindow();
     }
 });
